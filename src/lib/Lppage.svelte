@@ -1,0 +1,223 @@
+<script>
+
+import SvelteTable from "svelte-table";
+
+import {getPairsData} from "./pools";
+import openicon from "../assets/openicon.svg";
+import swapicon from "../assets/swap.svg";
+
+getPairsData(data => {
+    allPairs = data;
+    rows = allPairs;
+});
+
+var filterToken = (tokenData, tokenName) => {
+    if (
+        tokenData.tok1.symbol.toLowerCase().startsWith(tokenName.toLowerCase()) ||
+        tokenData.tok2.symbol.toLowerCase().startsWith(tokenName.toLowerCase()))
+        return true;
+    return false;
+}
+var searchReset = (evt) => {
+    document.getElementById("divFilter").value = "";
+    rows = allPairs;
+}
+var searchTokens = (evt) => {
+    tokenFilter = evt.target.value;
+    if (tokenFilter) {
+        rows = allPairs.filter(tokData => {
+            return filterToken(tokData, tokenFilter)
+        });
+    } else {
+        tokenFilter = "";
+        rows = allPairs;
+    }
+}
+var switchAPR = (evt) => {
+    if (rateDisplayed == "DPR") {
+        rateDisplayed = "APR";
+        columns[2].title = "Rate %/y";
+        // columns[2].value = v => v.rateAnnual;
+    } else {
+        rateDisplayed = "DPR";
+        columns[2].title = "Rate %/d";
+        // columns[2].value = v => v.rateDaily;
+    }
+}
+var decoder = document.createElement("div");
+var neuter = (HTMLstring) => {
+    // Sanitize the HTML string using browser capabilities to avoid any XSS
+    decoder = decoder || document.createElement("div");
+    decoder.innerHTML = HTMLstring;
+    return decoder.textContent;
+}
+var renderPair = (pairData) => {
+    var pairTxt = pairData.tok1.symbol + " / " + pairData.tok2.symbol.slice(0, 6);
+    var tokenIdInt = parseFloat(pairData.tok2.tokenId);
+    var tokenId = tokenIdInt > 0 ? "_" + tokenIdInt.toFixed(0) : "";
+    var linkCode =
+      " <a href=\"https://quipuswap.com/invest/add-liquidity/" +
+      neuter(pairData.tok2.id) +
+      tokenId +
+      "\" target=\"blank\"><img class=\"ico\" src=\"" + 
+      openicon +
+      "\"></a>";
+    return neuter(pairTxt) + linkCode;
+}
+var renderRate = (pairData) => {
+    var rateTxt = "";
+    if (rateDisplayed == "DPR")
+        rateTxt = pairData.rateDaily.toFixed(3) + " %";
+    else
+        rateTxt = pairData.rateAnnual.toFixed(1) + " %";
+    if (pairData.farm) {
+        rateTxt += "<span class=\"farmAdd\"> + " +
+        "<a class=\"farmLink\" href=\"https://app.tzwrap.com/liquidity-mining/op/" +
+          neuter(pairData.farm.farming) +
+          "/stake\" target=\"blank\">" +
+          pairData.farm[rateDisplayed.toLowerCase()].toFixed(rateDisplayed == "DPR" ? 2 : 0) +
+          "%</a></span>";
+    }
+    return rateTxt;
+}
+var rows = [];
+var allPairs = [];
+var tokenFilter = "";
+var rateDisplayed = "DPR";
+const columns = [{
+        key: "assets",
+        title: "Assets pair",
+        value: v => v.tok2.symbol.toLowerCase(),
+        renderValue: renderPair,
+        sortable: true,
+        headerClass: "text-left",
+    }, {
+        key: "liq",
+        title: "Liquidity tz",
+        renderValue: v => v.liq.toFixed(0),
+        value: v => v.liq,
+        sortable: true,
+        filterValue: v => v.liq,
+    }, {
+        key: "rate",
+        title: "Rate %/d",
+        value: v => v.rateDaily,
+        renderValue: renderRate,
+        sortable: true,
+    },
+];
+
+</script>
+
+
+    <h2 class="my-4">
+      LP deposit rates on
+      <a href="https://quipuswap.com/invest/add-liquidity" class="has-text-weight-semibold" target="blank">
+        Quipuswap
+      </a>
+      <br>
+      and farming with
+      <a href="https://app.tzwrap.com/liquidity-mining" class="has-text-weight-semibold" target="blank">
+        Wrap
+      </a>
+    </h2>
+
+    {#if rows.length || tokenFilter}
+      <div class="dfilter field is-flex is-justify-content-space-between mb-1 mt-5">
+        <div class="control has-icons-right" id="tokFilter">
+          <input 
+            id="divFilter"
+            class="input is-small"
+            type="text"
+            on:keyup={searchTokens}
+            placeholder="Filter token"
+          >
+          <div class="icon is-small is-right">
+            <div
+              class="delete"
+              on:click={searchReset}>
+            </div>
+          </div>
+        </div>
+        <div
+          class="button is-small btnapr"
+          on:click={switchAPR}
+        >
+          DPR<img class="ico swapico" alt="swap arrows" src={swapicon}>APR
+        </div>
+      </div>
+      <div class="mx-0 mb-4">
+        <SvelteTable 
+          class="table"
+          columns="{columns}"
+          rows="{rows}"
+          classNameRow="tableRow"
+          sortBy= "rate",
+          sortOrder= -1
+        >
+        </SvelteTable>
+      </div>
+    {:else }
+      <h2 class="my-5">Loading data ...</h2>
+    {/if}
+
+
+<style>
+
+  a {
+    color: #0d2b4e;
+  }
+  :global(.farmLink) {
+    color: #0d2b4e;
+    border-bottom: 1px solid #0d2b4e;
+    padding: 0 0 0px;
+  }
+  .btnapr {
+    margin-right: 18px;
+  }
+  .input:focus, .input:active {
+    border-color: #0d2b4e;
+  }
+  .dfilter {
+    text-align: left;
+  }
+  :global(.ico) {
+    width: 14px;
+  }
+  .swapico {
+    margin: 1px 5px 0;
+  }
+  #tokFilter {
+    margin-left: 8px;
+    width: 130px;
+    background-color: #FEFEFE;
+    border-color: #858da2;
+  }
+  h2 {
+    font-size: 1.2em;
+  }
+  :global(.tableRow) {
+    height: 40px;
+    border-bottom: 1px solid #D8D8D8;
+  }
+  :global(.tableRow:last-child) {
+    border-bottom: none;
+  }
+  :global(table td) {
+    vertical-align: middle !important;
+  }
+  :global(.farmAdd) {
+    font-size: 0.8rem;
+  }
+  
+  @media (min-width: 480px) {
+    #tokFilter {
+      margin-left: 32px;
+      width: 140px;
+    }
+    .btnapr {
+      margin-right: 36px;
+    }
+  }
+
+</style>
