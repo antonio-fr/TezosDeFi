@@ -189,27 +189,10 @@ refreshData();
         <select>
           <option value="DPR">% DPR</option>
           <option value="APR" selected>% APR</option>
-          <option value="APY">% APY</option>
         </select>
       </div>
     </div>
   </div>
-  {#if inputRate == "APY"}
-  <div class="columns is-mobile mt-0 mb-0">
-    <div class="column is-offset-1 is-justify-content-end p-1 is-flex is-align-items-center ml-3">
-      Compounding period (days)
-    </div>
-    <div class="column p-1 is-flex is-justify-content-start">
-      <input 
-        class="input"
-        type="text"
-        placeholder="days"
-        bind:value={compoundT}
-        on:keyup={refreshData}
-      >
-    </div>
-  </div>
-  {/if}
   <div class="columns is-mobile mt-0 mb-3">
     <div class="column is-offset-1 is-justify-content-end p-1 is-flex is-align-items-center ml-3">
       deposit duration (days)
@@ -246,8 +229,7 @@ refreshData();
     - The half coin side loses 80% (x=-80%) : you lose 47.6 % (100-52.4), which is 11.9% worse than holding.<br>
     <br>Conditions :<br>
     - The other half side is fixed. This theory is good when one side of the liquidity is a stable coin (USDT, jEUR...), or your point of reference (XTZ, BTC, ETH,...).<br>
-    - It doesn't take in account any trading, order, transction fee. It supposes the fee to deposit, unstake, and claim are null or at least negligeable relative to the balance.
-    - It supposes the compounding is done wit 100% of the balance, equivalent to a performance fee equals to 0.
+    - It doesn't take in account any trading, order, transction fee. It supposes the fees to deposit, unstake, and claim are null or at least negligeable relative to the balance.
   </div>
 
 
