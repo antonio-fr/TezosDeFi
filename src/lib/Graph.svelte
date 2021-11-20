@@ -8,8 +8,8 @@
   var days = 90
   var compoundT = 7;
   var inputRate = "APR";
-  var tickStep = 20; // 1 / 20 percent = 5%
-  var maxVar = 4;
+  var tickStep = 20; // 100% / 20 = 5%
+  var maxVar = 4; // +300%
   var ROI = "";
   var beatHold = ["",""];
   var generateX = (v, i) => {
@@ -60,7 +60,7 @@
     return [200*(baseLimit-SqDiscrim), 200*(baseLimit+SqDiscrim)];
   };
 
-  var xTick = Array.from({length:20*maxVar}, generateX);
+  var xTick = Array.from({length:tickStep*maxVar}, generateX);
   var gainData = xTick.map(LPgain);
   var relGainData = xTick.map(relGain);
   var holdData = xTick.map(x => 100*holdValue(x))
@@ -112,7 +112,7 @@
       },
       {
         label: "Flat ROI",
-        data: Array.from({length:20*maxVar}, x=>100),
+        data: Array.from({length:tickStep*maxVar}, x=>100),
         borderColor: "#F60026",
         borderWidth: 1,
         borderDash: [8, 8],
