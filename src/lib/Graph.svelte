@@ -156,7 +156,7 @@ refreshData();
 
 
   <h2 class="my-4">
-    Graph calculator
+    LP graph calculator
   </h2>
   <div class="mt-2 mb-0 box">
     <div class="graphHeader">
