@@ -1,22 +1,41 @@
 <script>
 
   import Lppage from "./lib/Lppage.svelte";
+  import Graph from "./lib/Graph.svelte";
   import logo from "./assets/tdefi.png";
+  import back from "./assets/back.svg";
   import email from "./assets/email.svg";
   var page = "";
 
+  var openGraph = (evt) => {
+    console.log("Click")
+    document.getElementsByTagName("main")[0].style["max-width"] = "1200px";
+    page = "graph";
+  }
+  var goBack = (evt) => {
+    document.getElementsByTagName("main")[0].style["max-width"] = "500px";
+    page = "";
+  }
+  import { onMount } from 'svelte';
+  onMount(openGraph); // for test
 </script>
 
 
 <main>
   <h1>Tezos De.Fi</h1>
-  
   {#if !page}
   
     <img src={logo} alt="TezosDefiLogo" class="logohome mb-4">
-    <div>
+    
+  <div>
       <button
-        class="button is-large smtxt mb-5"
+        class="button is-small smtxt mb-5"
+        on:click={openGraph}
+      >
+        Graph calculator
+      </button>
+      <button
+        class="button is-large smtxt mb-2"
         on:click={e=>page="lprates"}
       >
         Liquidity Pool Provider Rates
@@ -24,7 +43,23 @@
     </div>
   
   {:else if page=="lprates"}
+    <div
+      class="button is-info is-small is-outlined mb-3 mt-2"
+      on:click={goBack}
+    >
+      <img src={back} alt="back" class="backicon">
+      Back
+    </div>
     <Lppage></Lppage>
+  {:else if page=="graph"}
+    <div
+      class="button is-info is-small is-outlined mb-3 mt-2"
+      on:click={goBack}
+    >
+      <img src={back} alt="back" class="backicon">
+      Back
+    </div>
+    <Graph></Graph>
   {/if}
 
 </main>
@@ -66,7 +101,7 @@
     font-size: 2rem;
     font-weight: 600;
     line-height: 1.1;
-    margin: 2rem auto;
+    margin: 1.2rem auto;
     max-width: 14rem;
   }
   .smtxt {
@@ -81,6 +116,10 @@
   .logohome {
     width: 80px;
     height: 80px;
+  }
+  .backicon {
+    height: 1.5em;
+    margin: auto 8px auto 0;
   }
   .emailicon {
     height: 1.5em;
@@ -98,7 +137,6 @@
     }
     h1 {
       max-width: none;
-      margin-bottom: 1.5em;
     }
   }
 
@@ -108,7 +146,7 @@
     }
   }
   
-  @media (min-height: 900px) {
+  @media (min-height: 800px) {
     main {
       margin-top: 100px;
     }
