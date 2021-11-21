@@ -66,16 +66,24 @@ var renderPair = (pairData) => {
 }
 var renderRate = (pairData) => {
     var rateTxt = "";
+    if (pairData.farm)
+        rateTxt += "<span class=\"farmStriked\">"
     if (rateDisplayed == "DPR")
-        rateTxt = pairData.rateDaily.toFixed(3) + " %";
+        rateTxt += pairData.rateDaily.toFixed(3) + " %";
     else
-        rateTxt = pairData.rateAnnual.toFixed(1) + " %";
+        rateTxt += pairData.rateAnnual.toFixed(1) + " %";
     if (pairData.farm) {
-        rateTxt += "<span class=\"farmAdd\"> + " +
+        var farmRate = pairData.farm[rateDisplayed.toLowerCase()]
+        if (rateDisplayed == "DPR")
+          var newRate = (((1+pairData.rateDaily/100)*(1+farmRate/100))-1)*100
+        else
+          var newRate = (((1+pairData.rateAnnual/100)*(1+farmRate/100))-1)*100
+        console.log(farmRate);
+        rateTxt += "</span><span class=\"farmAdd\"> : " +
         "<a class=\"farmLink\" href=\"https://app.tzwrap.com/liquidity-mining/op/" +
           neuter(pairData.farm.farming) +
           "/stake\" target=\"blank\">" +
-          pairData.farm[rateDisplayed.toLowerCase()].toFixed(rateDisplayed == "DPR" ? 2 : 0) +
+          newRate.toFixed(rateDisplayed == "DPR" ? 2 : 0) +
           "%</a></span>";
     }
     return rateTxt;
@@ -207,7 +215,12 @@ const columns = [{
     vertical-align: middle !important;
   }
   :global(.farmAdd) {
+    font-size: 0.95rem;
+  }
+  :global(.farmStriked) {
     font-size: 0.8rem;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
   }
   
   @media (min-width: 480px) {
