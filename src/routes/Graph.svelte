@@ -11,6 +11,7 @@
   var inputRate = "APR";
   var tickStep = 20; // 100% / 20 = 5%
   var maxVar = 4; // +300%
+  var maxGain = "";
   var ROI = "";
   var beatHold = ["",""];
   var generateX = (v, i) => {
@@ -83,6 +84,7 @@
     data.datasets[0].data = xTick.map(LPgain);
     data.datasets[1].data = xTick.map(relGain);
     // data.datasets[2].data = xTick.map(x => 100*holdValue(x))
+    maxGain = (LPgain(1)-100).toFixed(1);
     ROI = solveGainLimit().toFixed(1);
     beatHold = solveBeatHold().map(l=>l.toFixed(1));
   };
@@ -163,6 +165,7 @@ refreshData();
   <div class="mt-2 mb-0 box">
     <div class="graphHeader">
       <b>One side variation limits</b><br>
+      Maximum gain : +{maxGain} % <br>
       R.O.I. breakeven : {ROI} % and above<br>
       Beat the hold : {beatHold[0]}% to +{beatHold[1]}%
     </div>
