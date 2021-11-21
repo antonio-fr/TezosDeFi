@@ -1,66 +1,29 @@
 <script>
 
-  import Lppage from "./lib/Lppage.svelte";
-  import Graph from "./lib/Graph.svelte";
-  import logo from "./assets/tdefi.png";
-  import back from "./assets/back.svg";
+  import Router from 'svelte-spa-router';
+  import {location} from 'svelte-spa-router';
+  import Back from "./routes/Back.svelte";
+  import Home from "./routes/Home.svelte";
+  import Lppage from "./routes/Lppage.svelte";
+  import Graph from "./routes/Graph.svelte";
   import email from "./assets/email.svg";
-  var page = "";
 
-  var openGraph = (evt) => {
-    console.log("Click")
-    document.getElementsByTagName("main")[0].style["max-width"] = "1200px";
-    page = "graph";
+  const routes = {
+    '/lprates': Lppage,
+    '/graph': Graph,
+    '*': Home,
   }
-  var goBack = (evt) => {
-    document.getElementsByTagName("main")[0].style["max-width"] = "500px";
-    page = "";
-  }
-  import { onMount } from 'svelte';
-  onMount(openGraph); // for test
+
 </script>
 
 
 <main>
   <h1>Tezos De.Fi</h1>
-  {#if !page}
-  
-    <img src={logo} alt="TezosDefiLogo" class="logohome mb-4">
-    
-  <div>
-      <button
-        class="button is-small smtxt mb-5"
-        on:click={openGraph}
-      >
-        Graph calculator
-      </button>
-      <button
-        class="button is-large smtxt mb-2"
-        on:click={e=>page="lprates"}
-      >
-        Liquidity Pool Provider Rates
-      </button>
-    </div>
-  
-  {:else if page=="lprates"}
-    <div
-      class="button is-info is-small is-outlined mb-3 mt-2"
-      on:click={goBack}
-    >
-      <img src={back} alt="back" class="backicon">
-      Back
-    </div>
-    <Lppage></Lppage>
-  {:else if page=="graph"}
-    <div
-      class="button is-info is-small is-outlined mb-3 mt-2"
-      on:click={goBack}
-    >
-      <img src={back} alt="back" class="backicon">
-      Back
-    </div>
-    <Graph></Graph>
+
+  {#if $location!="/"}
+    <Back />
   {/if}
+  <Router {routes}/>
 
 </main>
 
@@ -104,22 +67,11 @@
     margin: 1.2rem auto;
     max-width: 14rem;
   }
-  .smtxt {
-    font-size: 1.3rem;
-  }
   .mfooter {
     text-align: center;
     max-width: none;
     margin: 1rem auto;
     line-height: 1.35;
-  }
-  .logohome {
-    width: 80px;
-    height: 80px;
-  }
-  .backicon {
-    height: 1.5em;
-    margin: auto 8px auto 0;
   }
   .emailicon {
     height: 1.5em;

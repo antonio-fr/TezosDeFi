@@ -1,8 +1,7 @@
 <script>
 
 import SvelteTable from "svelte-table";
-
-import {getPairsData} from "./pools";
+import {getPairsData} from "../lib/pools";
 import openicon from "../assets/openicon.svg";
 import swapicon from "../assets/swap.svg";
 

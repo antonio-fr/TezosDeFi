@@ -1,6 +1,7 @@
 <script>
 
-  import Line from "svelte-chartjs/src/Line.svelte"
+  import { onMount } from 'svelte';
+  import Line from "svelte-chartjs/src/Line.svelte";
 
 
   // Default values
@@ -151,6 +152,7 @@
 window.addEventListener('resize', (evt) => {
   options.aspectRatio = getHeightRatio();
 });
+onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "1200px");
 refreshData();
 </script>
 
@@ -235,12 +237,6 @@ refreshData();
 
 <style>
 
-  main {
-    max-width: 900px;
-  }
-  a {
-    color: #0d2b4e;
-  }
   h2 {
     font-size: 1.2em;
   }
