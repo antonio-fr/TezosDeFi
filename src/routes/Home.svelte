@@ -13,16 +13,16 @@
 
   <div>
     <button
-      class="button is-small smtxt mb-5"
-      on:click={e=>push('/graph')}
-    >
-      Graph calculator
-    </button>
-    <button
-      class="button is-large smtxt mb-2"
+      class="button is-large smtxt mb-4"
       on:click={e=>push('/lprates')}
     >
       Liquidity Pool Provider Rates
+    </button>
+    <button
+      class="button is-small smtxt mb-2"
+      on:click={e=>push('/graph')}
+    >
+      Graph calculator
     </button>
   </div>
 
