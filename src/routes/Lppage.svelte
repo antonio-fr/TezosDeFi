@@ -77,7 +77,6 @@ var renderRate = (pairData) => {
           var newRate = (((1+pairData.rateDaily/100)*(1+farmRate/100))-1)*100
         else
           var newRate = (((1+pairData.rateAnnual/100)*(1+farmRate/100))-1)*100
-        console.log(farmRate);
         rateTxt += "</span><span class=\"farmAdd\"> : " +
         "<a class=\"farmLink\" href=\"https://app.tzwrap.com/liquidity-mining/op/" +
           neuter(pairData.farm.farming) +
