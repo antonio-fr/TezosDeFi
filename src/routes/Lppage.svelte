@@ -1,9 +1,10 @@
 <script>
 
+import { onMount } from 'svelte';
 import SvelteTable from "svelte-table";
-
-import {getPairsData} from "./pools";
+import {getPairsData} from "../lib/pools";
 import openicon from "../assets/openicon.svg";
+import calcicon from "../assets/calc.svg";
 import swapicon from "../assets/swap.svg";
 
 getPairsData(data => {
@@ -52,7 +53,15 @@ var neuter = (HTMLstring) => {
     return decoder.textContent;
 }
 var renderPair = (pairData) => {
-    var pairTxt = pairData.tok1.symbol + " / " + pairData.tok2.symbol.slice(0, 6);
+    var tok1Sym = pairData.tok1.symbol;
+    var tok2Sym = pairData.tok2.symbol;
+    if (!tok1Sym)
+      tok1Sym = pairData.tok1.id.slice(0, 6);
+    if (!tok2Sym)
+      tok2Sym = pairData.tok2.id.slice(0, 6);
+    else
+      tok2Sym = tok2Sym.slice(0, 6)
+    var pairTxt = tok1Sym + " / " + tok2Sym;
     var tokenIdInt = parseFloat(pairData.tok2.tokenId);
     var tokenId = tokenIdInt > 0 ? "_" + tokenIdInt.toFixed(0) : "";
     var linkCode =
@@ -66,18 +75,37 @@ var renderPair = (pairData) => {
 }
 var renderRate = (pairData) => {
     var rateTxt = "";
-    if (rateDisplayed == "DPR")
-        rateTxt = pairData.rateDaily.toFixed(3) + " %";
-    else
-        rateTxt = pairData.rateAnnual.toFixed(1) + " %";
+    if (pairData.farm)
+        rateTxt += "<span class=\"farmStriked\">"
+    var rate = 0;
+    if (rateDisplayed == "DPR") {
+        rate = pairData.rateDaily;
+        rateTxt += rate.toFixed(3) + " %";
+    }
+    else {
+        rate = pairData.rateAnnual;
+        rateTxt += rate.toFixed(1) + " %";
+    }
+    var newRate = null;
     if (pairData.farm) {
-        rateTxt += "<span class=\"farmAdd\"> + " +
+        var farmRate = pairData.farm[rateDisplayed.toLowerCase()]
+        if (rateDisplayed == "DPR")
+          newRate = (((1+pairData.rateDaily/100)*(1+farmRate/100))-1)*100
+        else
+          newRate = (((1+pairData.rateAnnual/100)*(1+farmRate/100))-1)*100
+        rateTxt += "</span><span class=\"farmAdd\"> " +
         "<a class=\"farmLink\" href=\"https://app.tzwrap.com/liquidity-mining/op/" +
           neuter(pairData.farm.farming) +
           "/stake\" target=\"blank\">" +
-          pairData.farm[rateDisplayed.toLowerCase()].toFixed(rateDisplayed == "DPR" ? 2 : 0) +
+          newRate.toFixed(rateDisplayed == "DPR" ? 2 : 0) +
           "%</a></span>";
     }
+    if (newRate!=null)
+      rate = newRate;
+    rateTxt += "<a href=\"#/graph?rate=" +
+               rate.toFixed(rateDisplayed == "DPR" ? 3 : 1) +
+               ((rateDisplayed=="DPR")?"&type=dpr":"");
+    rateTxt += "\" use:link><img class=\"calcico\" src=\"" + calcicon + "\"></a>";
     return rateTxt;
 }
 var rows = [];
@@ -106,6 +134,7 @@ const columns = [{
         sortable: true,
     },
 ];
+onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "500px");
 
 </script>
 
@@ -184,6 +213,10 @@ const columns = [{
   :global(.ico) {
     width: 14px;
   }
+  :global(.calcico) {
+    width: 15px;
+    margin-left: 1px;
+  }
   .swapico {
     margin: 1px 5px 0;
   }
@@ -207,7 +240,12 @@ const columns = [{
     vertical-align: middle !important;
   }
   :global(.farmAdd) {
+    font-size: 0.95rem;
+  }
+  :global(.farmStriked) {
     font-size: 0.8rem;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
   }
   
   @media (min-width: 480px) {

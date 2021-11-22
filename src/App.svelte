@@ -1,32 +1,32 @@
 <script>
 
-  import Lppage from "./lib/Lppage.svelte";
-  import logo from "./assets/tdefi.png";
+  import Router from 'svelte-spa-router';
+  import {location} from 'svelte-spa-router';
+  import Back from "./routes/Back.svelte";
+  import Home from "./routes/Home.svelte";
+  import Lppage from "./routes/Lppage.svelte";
+  import Graph from "./routes/Graph.svelte";
   import email from "./assets/email.svg";
-  var page = "";
+
+  const routes = {
+    '/lprates': Lppage,
+    '/graph': Graph,
+    '*': Home,
+  }
 
 </script>
 
 
 <main>
   <h1>Tezos De.Fi</h1>
-  
-  {#if !page}
-  
-    <img src={logo} alt="TezosDefiLogo" class="logohome mb-4">
-    <div>
-      <button
-        class="button is-large smtxt mb-5"
-        on:click={e=>page="lprates"}
-      >
-        Liquidity Pool Provider Rates
-      </button>
-    </div>
-  
-  {:else if page=="lprates"}
-    <Lppage></Lppage>
-  {/if}
 
+  {#if $location!="/"}
+    <Back />
+  {/if}
+  <Router {routes}/>
+  {#if $location!="/"}
+    <Back />
+  {/if}
 </main>
 
   <div class="mfooter">
@@ -66,21 +66,14 @@
     font-size: 2rem;
     font-weight: 600;
     line-height: 1.1;
-    margin: 2rem auto;
+    margin: 1.2rem auto;
     max-width: 14rem;
-  }
-  .smtxt {
-    font-size: 1.3rem;
   }
   .mfooter {
     text-align: center;
     max-width: none;
     margin: 1rem auto;
     line-height: 1.35;
-  }
-  .logohome {
-    width: 80px;
-    height: 80px;
   }
   .emailicon {
     height: 1.5em;
@@ -98,7 +91,6 @@
     }
     h1 {
       max-width: none;
-      margin-bottom: 1.5em;
     }
   }
 
@@ -108,7 +100,7 @@
     }
   }
   
-  @media (min-height: 900px) {
+  @media (min-height: 800px) {
     main {
       margin-top: 100px;
     }
