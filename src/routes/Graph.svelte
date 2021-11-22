@@ -253,7 +253,8 @@ onMount(loadData);
     - The half coin side loses 80% (x=-80%) : you lose 47.6 % (100-52.4), which is 11.9% worse than holding.<br>
     <br>Conditions :<br>
     - The other half side is fixed. This theory is good when one side of the liquidity is a stable coin (USDT, jEUR...), or your point of reference (XTZ, BTC, ETH,...).<br>
-    - It doesn't take in account any trading, order, transaction fee. It supposes the fees to deposit and remove the liquidity are null or at least negligeable relative to the balance.
+    - It doesn't take in account any trading, order, transaction fee. It supposes the fees to deposit and remove the liquidity are null or at least negligeable relative to the balance.<br>
+    - If the rate includes an external farming reward denominated in a token, the computed result is for the current price of the reward token.
   </div>
 
 
