@@ -85,7 +85,7 @@
         font-size: 18px;
     }
     main {
-      padding: 3.2em;
+      padding: 2.75em;
       border-radius: 32px;
       max-width: 640px;
     }

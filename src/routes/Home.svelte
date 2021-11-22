@@ -19,7 +19,7 @@
       Liquidity Pool Provider Rates
     </button>
     <button
-      class="button is-small smtxt mb-2"
+      class="button is-small smtxt mb-5"
       on:click={e=>push('/graph')}
     >
       Graph calculator

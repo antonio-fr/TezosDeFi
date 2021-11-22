@@ -181,8 +181,8 @@ onMount(loadData);
   </h2>
   <div class="mt-2 mb-0 box">
     <div class="graphHeader">
-      <b>One side variation limits</b><br>
       Maximum gain : +{maxGain} % <br>
+      <div class="has-text-weight-bold mt-2">One side variation limits</div>
       R.O.I. breakeven : {ROI} % and above<br>
       Beat the hold : {beatHold[0]}% to +{beatHold[1]}%
     </div>

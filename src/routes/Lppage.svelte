@@ -80,7 +80,7 @@ var renderRate = (pairData) => {
     var rate = 0;
     if (rateDisplayed == "DPR") {
         rate = pairData.rateDaily;
-        rateTxt += rate.toFixed(3) + " %";
+        rateTxt += rate.toFixed(pairData.farm?2:3) + " %";
     }
     else {
         rate = pairData.rateAnnual;
