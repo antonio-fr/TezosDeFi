@@ -1,5 +1,6 @@
 <script>
 
+import { onMount } from 'svelte';
 import SvelteTable from "svelte-table";
 import {getPairsData} from "../lib/pools";
 import openicon from "../assets/openicon.svg";
@@ -101,7 +102,9 @@ var renderRate = (pairData) => {
     }
     if (newRate!=null)
       rate = newRate;
-    rateTxt += "<a href=\"#/graph?rate=" + rate.toFixed(rateDisplayed == "DPR" ? 3 : 1) + ((rateDisplayed=="DPR")?"&type=dpr":"")
+    rateTxt += "<a href=\"#/graph?rate=" +
+               rate.toFixed(rateDisplayed == "DPR" ? 3 : 1) +
+               ((rateDisplayed=="DPR")?"&type=dpr":"");
     rateTxt += "\" use:link><img class=\"calcico\" src=\"" + calcicon + "\"></a>";
     return rateTxt;
 }
@@ -131,6 +134,7 @@ const columns = [{
         sortable: true,
     },
 ];
+onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "500px");
 
 </script>
 

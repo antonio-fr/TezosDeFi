@@ -15,7 +15,7 @@
   }
   var inputRate = "APR";
   var tickStep = 20; // 100% / 20 = 5%
-  var maxVar = 4; // +300%
+  var maxVar = 4;    // +300%
 
   var maxGain = "";
   var ROI = "";
@@ -96,14 +96,12 @@
     datasets: [
       {
         label: "Gain",
-        // data: gainData,
         borderColor: "#000f89",
         borderWidth: 3,
         borderJoinStyle: "round"
       },
       {
         label: "Relative",
-        // data: relGainData,
         borderColor: "#32cd32",
         borderWidth: 3,
         borderJoinStyle: "round"
