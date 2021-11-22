@@ -24,7 +24,9 @@
     <Back />
   {/if}
   <Router {routes}/>
-
+  {#if $location!="/"}
+    <Back />
+  {/if}
 </main>
 
   <div class="mfooter">

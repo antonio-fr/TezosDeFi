@@ -6,7 +6,7 @@
 
 
   <div
-    class="button is-info is-small is-outlined mb-3 mt-2"
+    class="button is-info is-small is-outlined mb-1 mt-2"
     on:click={e=>push('/')}
   >
     <img src={back} alt="back" class="backicon">
