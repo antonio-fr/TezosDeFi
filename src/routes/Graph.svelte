@@ -87,7 +87,6 @@
   var refreshData = () => {
     data.datasets[0].data = xTick.map(LPgain);
     data.datasets[1].data = xTick.map(relGain);
-    // data.datasets[2].data = xTick.map(x => 100*holdValue(x))
     maxGain = (LPgain(1)-100).toFixed(1);
     ROI = solveGainLimit().toFixed(1);
     beatHold = solveBeatHold().map(l=>l.toFixed(1));
