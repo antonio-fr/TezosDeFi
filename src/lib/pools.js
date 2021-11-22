@@ -97,7 +97,6 @@ const getPairsData = (callback) => {
                                 dpr: fdata.apr / 365,
                                 farming: fdata.farmingContract
                             };
-                            console.log(allPairs[pid]);
                         }
                     });
                 });
