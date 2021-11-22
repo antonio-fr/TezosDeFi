@@ -1,13 +1,18 @@
 <script>
 
-  import { onMount } from 'svelte';
+  import {onMount} from 'svelte';
+  import {querystring} from 'svelte-spa-router';
   import Line from "svelte-chartjs/src/Line.svelte";
 
 
   // Default values
-  var rate = 70 // APR %
-  var days = 90
-  var compoundT = 7;
+  var qrobj;
+  var rate;
+  var days;
+  $: {
+      qrobj = new URLSearchParams($querystring);
+      loadData();
+  }
   var inputRate = "APR";
   var tickStep = 20; // 100% / 20 = 5%
   var maxVar = 4; // +300%
@@ -152,8 +157,25 @@
 window.addEventListener('resize', (evt) => {
   options.aspectRatio = getHeightRatio();
 });
-onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "1200px");
-refreshData();
+var loadData = () => {
+  document.getElementsByTagName("main")[0].style["max-width"] = "1200px";
+  rate = qrobj.get("rate")?qrobj.get("rate"):70 // APR %
+  days = qrobj.get("days")?qrobj.get("days"):30 // days period
+  var titleDOM = document.getElementsByTagName("h2")[0]
+  if(titleDOM)
+    titleDOM.scrollIntoView();
+  var selectClassDOM = document.getElementsByClassName('select')[0];
+  if (selectClassDOM) {
+    var selectDOM = selectClassDOM.firstChild;
+    selectDOM.value = "APR";
+    if (qrobj.get("type") && qrobj.get("type").toLowerCase() == "dpr") {
+      selectDOM.value = "DPR";
+      inputRate = "DPR";
+    }
+  }
+  refreshData();
+};
+onMount(loadData);
 </script>
 
 
@@ -226,13 +248,13 @@ refreshData();
     
 
     <br>Examples : With APR = 70%, during 90 days<br>
-    - Both sides stable, no side gain nor lose (x=0%) : you gain the full rate reward 17.2 %, which is also +17.2% than holding.<br>
+    - Both sides stable, no side gain nor lose (x=0%) : you gain the full rate reward 17.3 %, which is also +17.3% than holding.<br>
     - The half coin side gains 85% (x=+85%) : you gain 59.5 %, which is +11.9% than holding.<br>
     - The half coin side loses 40% (x=-40%) : you lose 9.2 % (100-90.8), although value is +13.5% than holding.<br>
     - The half coin side loses 80% (x=-80%) : you lose 47.6 % (100-52.4), which is 11.9% worse than holding.<br>
     <br>Conditions :<br>
     - The other half side is fixed. This theory is good when one side of the liquidity is a stable coin (USDT, jEUR...), or your point of reference (XTZ, BTC, ETH,...).<br>
-    - It doesn't take in account any trading, order, transction fee. It supposes the fees to deposit, unstake, and claim are null or at least negligeable relative to the balance.
+    - It doesn't take in account any trading, order, transaction fee. It supposes the fees to deposit and remove the liquidity are null or at least negligeable relative to the balance.
   </div>
 
 
@@ -242,7 +264,7 @@ refreshData();
     font-size: 1.2em;
   }
   input {
-    max-width: 70px;
+    max-width: 80px;
     background-color: #FCFCFD;
   }
   select:not([multiple]) {

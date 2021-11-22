@@ -3,6 +3,7 @@
 import SvelteTable from "svelte-table";
 import {getPairsData} from "../lib/pools";
 import openicon from "../assets/openicon.svg";
+import calcicon from "../assets/calc.svg";
 import swapicon from "../assets/swap.svg";
 
 getPairsData(data => {
@@ -67,23 +68,33 @@ var renderRate = (pairData) => {
     var rateTxt = "";
     if (pairData.farm)
         rateTxt += "<span class=\"farmStriked\">"
-    if (rateDisplayed == "DPR")
-        rateTxt += pairData.rateDaily.toFixed(3) + " %";
-    else
-        rateTxt += pairData.rateAnnual.toFixed(1) + " %";
+    var rate = 0;
+    if (rateDisplayed == "DPR") {
+        rate = pairData.rateDaily;
+        rateTxt += rate.toFixed(3) + " %";
+    }
+    else {
+        rate = pairData.rateAnnual;
+        rateTxt += rate.toFixed(1) + " %";
+    }
+    var newRate = null;
     if (pairData.farm) {
         var farmRate = pairData.farm[rateDisplayed.toLowerCase()]
         if (rateDisplayed == "DPR")
-          var newRate = (((1+pairData.rateDaily/100)*(1+farmRate/100))-1)*100
+          newRate = (((1+pairData.rateDaily/100)*(1+farmRate/100))-1)*100
         else
-          var newRate = (((1+pairData.rateAnnual/100)*(1+farmRate/100))-1)*100
-        rateTxt += "</span><span class=\"farmAdd\"> : " +
+          newRate = (((1+pairData.rateAnnual/100)*(1+farmRate/100))-1)*100
+        rateTxt += "</span><span class=\"farmAdd\"> " +
         "<a class=\"farmLink\" href=\"https://app.tzwrap.com/liquidity-mining/op/" +
           neuter(pairData.farm.farming) +
           "/stake\" target=\"blank\">" +
           newRate.toFixed(rateDisplayed == "DPR" ? 2 : 0) +
           "%</a></span>";
     }
+    if (newRate!=null)
+      rate = newRate;
+    rateTxt += "<a href=\"#/graph?rate=" + rate.toFixed(rateDisplayed == "DPR" ? 3 : 1) + ((rateDisplayed=="DPR")?"&type=dpr":"")
+    rateTxt += "\" use:link><img class=\"calcico\" src=\"" + calcicon + "\"></a>";
     return rateTxt;
 }
 var rows = [];
@@ -189,6 +200,10 @@ const columns = [{
   }
   :global(.ico) {
     width: 14px;
+  }
+  :global(.calcico) {
+    width: 15px;
+    margin-left: 1px;
   }
   .swapico {
     margin: 1px 5px 0;
