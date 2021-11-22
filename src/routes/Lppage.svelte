@@ -52,7 +52,15 @@ var neuter = (HTMLstring) => {
     return decoder.textContent;
 }
 var renderPair = (pairData) => {
-    var pairTxt = pairData.tok1.symbol + " / " + pairData.tok2.symbol.slice(0, 6);
+    var tok1Sym = pairData.tok1.symbol;
+    var tok2Sym = pairData.tok2.symbol;
+    if (!tok1Sym)
+      tok1Sym = pairData.tok1.id.slice(0, 6);
+    if (!tok2Sym)
+      tok2Sym = pairData.tok2.id.slice(0, 6);
+    else
+      tok2Sym = tok2Sym.slice(0, 6)
+    var pairTxt = tok1Sym + " / " + tok2Sym;
     var tokenIdInt = parseFloat(pairData.tok2.tokenId);
     var tokenId = tokenIdInt > 0 ? "_" + tokenIdInt.toFixed(0) : "";
     var linkCode =
