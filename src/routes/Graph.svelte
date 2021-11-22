@@ -156,20 +156,20 @@ window.addEventListener('resize', (evt) => {
 });
 var loadData = () => {
   document.getElementsByTagName("main")[0].style["max-width"] = "1200px";
+  inputRate = "APR";
+  if (qrobj.get("type") && qrobj.get("type").toLowerCase() == "dpr") {
+    inputRate = "DPR";
+  }
+  var selectClassDOM = document.getElementsByClassName('select')[0];
+  if (selectClassDOM) {
+    var selectDOM = selectClassDOM.firstChild;
+    selectDOM.value = inputRate;
+  }
   rate = qrobj.get("rate")?qrobj.get("rate"):70 // APR %
   days = qrobj.get("days")?qrobj.get("days"):30 // days period
   var titleDOM = document.getElementsByTagName("h2")[0]
   if(titleDOM)
     titleDOM.scrollIntoView();
-  var selectClassDOM = document.getElementsByClassName('select')[0];
-  if (selectClassDOM) {
-    var selectDOM = selectClassDOM.firstChild;
-    selectDOM.value = "APR";
-    if (qrobj.get("type") && qrobj.get("type").toLowerCase() == "dpr") {
-      selectDOM.value = "DPR";
-      inputRate = "DPR";
-    }
-  }
   refreshData();
 };
 onMount(loadData);
