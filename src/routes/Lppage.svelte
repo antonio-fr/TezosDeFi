@@ -61,7 +61,7 @@ var renderPair = (pairData) => {
       tok2Sym = pairData.tok2.id.slice(0, 6);
     else
       tok2Sym = tok2Sym.slice(0, 6)
-    var pairTxt = tok1Sym + " / " + tok2Sym;
+    var pairTxt = tok2Sym + " / " + tok1Sym;
     var tokenIdInt = parseFloat(pairData.tok2.tokenId);
     var tokenId = tokenIdInt > 0 ? "_" + tokenIdInt.toFixed(0) : "";
     var linkCode =
