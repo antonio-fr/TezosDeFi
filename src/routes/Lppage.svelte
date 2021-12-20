@@ -93,10 +93,13 @@ var renderRate = (pairData) => {
           newRate = (((1+pairData.rateDaily/100)*(1+farmRate/100))-1)*100
         else
           newRate = (((1+pairData.rateAnnual/100)*(1+farmRate/100))-1)*100
+        var farmLink = neuter(pairData.farm.farming);
+        if (farmLink != "https://plentydefi.com/farms")
+          farmLink = "https://app.tzwrap.com/liquidity-mining/op/" + farmLink + "/stake";
         rateTxt += "</span><span class=\"farmAdd\"> " +
-        "<a class=\"farmLink\" href=\"https://app.tzwrap.com/liquidity-mining/op/" +
-          neuter(pairData.farm.farming) +
-          "/stake\" target=\"blank\">" +
+          "<a class=\"farmLink\" href=\"" +
+          farmLink +
+          "\" target=\"blank\">" +
           newRate.toFixed(rateDisplayed == "DPR" ? 2 : 0) +
           "%</a></span>";
     }
@@ -148,6 +151,10 @@ onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "500px"
       and farming with
       <a href="https://app.tzwrap.com/liquidity-mining" class="has-text-weight-semibold" target="blank">
         Wrap
+      </a>
+      or
+      <a href="https://www.plentydefi.com/farms" class="has-text-weight-semibold" target="blank">
+        Plenty
       </a>
     </h2>
 
