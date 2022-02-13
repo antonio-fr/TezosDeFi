@@ -48,7 +48,7 @@ const getPairsQuery = {
 
 const poolFee = 0.3; // percent
 const TEZ_SUBUNIT = 1000000; // microtez
-const TZNODE = "https://mainnet-tezos.giganode.io";
+const TZNODE = "https://mainnet.smartpy.io";
 
 const getPoolsData = (data, cbEnd) => {
     fetch("https://granada-api.quipuswap.com/", data)
