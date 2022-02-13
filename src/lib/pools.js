@@ -113,7 +113,6 @@ const computeQPPlentyFarms = (QPdexContract, cb) => {
                 rewardRate = (rewardRate / Math.pow(10, 18)).toFixed(18);
                 rewardRate = parseFloat(rewardRate);
                 var priceOfPlentyInUSD = getTokenPriceFromName("PLENTY");
-                // var priceOfStakeTokenInUsd = 13.97;
                 let DPR = 100 * (rewardRate * 2880 * priceOfPlentyInUSD) / (totalSupply * lpPrice);
                 cb(DPR);
             });
