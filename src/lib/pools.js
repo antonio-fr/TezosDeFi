@@ -2,7 +2,9 @@
 
 const getPairsQuery = {
     "operationName": "GetPairs",
-    "variables": { "limit": 50 },
+    "variables": {
+        "limit": 50
+    },
     "query": "query GetPairs($limit: Int, $offset: Int) {\
     pairs(limit: $limit, offset: $offset) {\
     totalCount\
@@ -81,7 +83,7 @@ const getTokenPriceFromName = (tokenName) => {
 
 const getTokenPriceFromContract = (tokenContract) => {
     TokensInfo.forEach((tdata) => {
-        if (tdata.tokenAddress== tokenContract) {
+        if (tdata.tokenAddress == tokenContract) {
             return tdata.usdValue;
         }
     });
@@ -89,7 +91,7 @@ const getTokenPriceFromContract = (tokenContract) => {
 
 // Get contract storage data on Tezos blockchain
 const getContractStorage = (contractAddr, cbEnd) => {
-    var url = TZNODE + "/chains/main/blocks/head/context/contracts/"+contractAddr+"/storage";
+    var url = TZNODE + "/chains/main/blocks/head/context/contracts/" + contractAddr + "/storage";
     fetch(url)
     .then(res => res.json())
     .then(cbEnd);
@@ -118,7 +120,6 @@ const computeQPPlentyFarms = (QPdexContract, cb) => {
         });
     });
 }
-
 
 const getPairsData = (callback) => {
     var offset = 0;
@@ -168,7 +169,7 @@ const getPairsData = (callback) => {
                     if (pdata.contract == QPPlenty && pdata.tok2.symbol == "PLENTY") {
                         computeQPPlentyFarms(QPPlenty, (dpr) => {
                             allPairs[pid].farm = {
-                                apr: dpr*365,
+                                apr: dpr * 365,
                                 dpr: dpr,
                                 farming: "https://plentydefi.com/farms"
                             };
