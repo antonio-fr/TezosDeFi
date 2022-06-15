@@ -65,7 +65,7 @@ var renderPair = (pairData) => {
     var tokenIdInt = parseFloat(pairData.tok2.tokenId);
     var tokenId = tokenIdInt > 0 ? "_" + tokenIdInt.toFixed(0) : "";
     var linkCode =
-      " <a href=\"https://quipuswap.com/invest/add-liquidity/" +
+      " <a href=\"https://quipuswap.com/liquidity/add/tez-" +
       neuter(pairData.tok2.id) +
       tokenId +
       "\" target=\"blank\"><img class=\"ico\" src=\"" + 
@@ -144,15 +144,11 @@ onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "500px"
 
     <h2 class="my-4">
       LP deposit rates on
-      <a href="https://quipuswap.com/invest/add-liquidity" class="has-text-weight-semibold" target="blank">
+      <a href="https://quipuswap.com/liquidity/" class="has-text-weight-semibold" target="blank">
         Quipuswap
       </a>
       <br>
       and farming with
-      <a href="https://app.tzwrap.com/liquidity-mining" class="has-text-weight-semibold" target="blank">
-        Wrap
-      </a>
-      or
       <a href="https://www.plentydefi.com/farms" class="has-text-weight-semibold" target="blank">
         Plenty
       </a>

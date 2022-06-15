@@ -51,13 +51,7 @@ const TEZ_SUBUNIT = 1000000; // microtez
 const TZNODE = "https://mainnet.smartpy.io";
 
 const getPoolsData = (data, cbEnd) => {
-    fetch("https://granada-api.quipuswap.com/", data)
-    .then(res => res.json())
-    .then(cbEnd);
-};
-
-const getFarmingData = (cbEnd) => {
-    fetch("https://stats.info.tzwrap.com/v1/liquidity-mining/apy")
+    fetch("https://analytics-api.quipuswap.com/graphql", data)
     .then(res => res.json())
     .then(cbEnd);
 };
@@ -148,34 +142,18 @@ const getPairsData = (callback) => {
             allPairs.push(pairInfo)
         });
         if (allPairs.length >= poolsRead) {
-            getFarmingData((farmData) => {
-                farmData.forEach((fdata) => {
-                    // refactor ?
-                    allPairs.forEach((pdata, pid) => {
-                        if (fdata.running && pdata.contract == fdata.quipuswapContract) {
-                            allPairs[pid].farm = {
-                                apr: parseFloat(fdata.apr),
-                                dpr: fdata.apr / 365,
-                                farming: fdata.farmingContract
-                            };
-                        }
+            // Plenty / XTZ QP Farm on Plenty
+            allPairs.forEach((pdata, pid) => {
+                if (pdata.contract == QPPlenty && pdata.tok2.symbol == "PLENTY") {
+                    computeQPPlentyFarms(QPPlenty, (dpr) => {
+                        allPairs[pid].farm = {
+                            apr: dpr * 365,
+                            dpr: dpr,
+                            farming: "https://plentydefi.com/farms"
+                        };
+                        callback(allPairs);
                     });
-                });
-                // Partial callback, Plenty call back will complete
-                callback(allPairs);
-                // Plenty / XTZ QP Farm on Plenty
-                allPairs.forEach((pdata, pid) => {
-                    if (pdata.contract == QPPlenty && pdata.tok2.symbol == "PLENTY") {
-                        computeQPPlentyFarms(QPPlenty, (dpr) => {
-                            allPairs[pid].farm = {
-                                apr: dpr * 365,
-                                dpr: dpr,
-                                farming: "https://plentydefi.com/farms"
-                            };
-                            callback(allPairs);
-                        });
-                    }
-                });
+                }
             });
         } else {
             offset += pageSize;
