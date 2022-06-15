@@ -45,10 +45,10 @@ var switchAPR = (evt) => {
         // columns[2].value = v => v.rateDaily;
     }
 }
-var decoder = document.createElement("div");
+var decoder = document.implementation.createHTMLDocument("New").body;
 var neuter = (HTMLstring) => {
     // Sanitize the HTML string using browser capabilities to avoid any XSS
-    decoder = decoder || document.createElement("div");
+    decoder = decoder || document.implementation.createHTMLDocument("New").body;
     decoder.innerHTML = HTMLstring;
     return decoder.textContent;
 }
