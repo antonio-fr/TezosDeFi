@@ -38,11 +38,9 @@ var switchAPR = (evt) => {
     if (rateDisplayed == "DPR") {
         rateDisplayed = "APR";
         columns[2].title = "Rate %/y";
-        // columns[2].value = v => v.rateAnnual;
     } else {
         rateDisplayed = "DPR";
         columns[2].title = "Rate %/d";
-        // columns[2].value = v => v.rateDaily;
     }
 }
 var decoder = document.implementation.createHTMLDocument("New").body;
@@ -186,8 +184,7 @@ onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "500px"
           classNameRow="tableRow"
           sortBy= "rate",
           sortOrder= -1
-        >
-        </SvelteTable>
+        />
       </div>
     {:else }
       <h2 class="my-5">Loading data ...</h2>
