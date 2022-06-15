@@ -135,7 +135,7 @@ const columns = [{
         sortable: true,
     },
 ];
-onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "500px");
+onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "650px");
 
 </script>
 

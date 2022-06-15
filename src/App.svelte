@@ -55,7 +55,7 @@
     text-align: center;
     padding: 0.5em;
     margin: 1.6rem auto 0;
-    max-width: 500px;
+    max-width: 650px;
     background-color: #F4F6F9;
   }
   a {
@@ -87,7 +87,6 @@
     main {
       padding: 2.75em;
       border-radius: 32px;
-      max-width: 640px;
     }
     h1 {
       max-width: none;
