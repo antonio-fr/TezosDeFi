@@ -38,7 +38,15 @@
       <img src={email} alt="letter" class="emailicon mb-4">
     </a>
     <div class="mb-4 is-size-7">
-      <a href="/">TezosDe.Fi</a> - Made with greed by <a href="https://github.com/antonio-fr/TezosDeFi" target="_blank">@antonio-fr</a> - Supported&nbsp;by&nbsp;<a href="https://bitlogik.fr" target="_blank">BitLogiK</a>
+      <a href="/">TezosDe.Fi</a>
+       - Made with greed by 
+      <a href="https://github.com/antonio-fr/TezosDeFi" target="_blank">
+        @antonio-fr
+      </a>
+       - Supported&nbsp;by&nbsp;
+      <a href="https://bitlogik.fr" target="_blank">
+        BitLogiK
+      </a>
     </div>
   </div>
 
@@ -82,7 +90,7 @@
 
   @media (min-width: 490px) {
     :root {
-        font-size: 18px;
+      font-size: 18px;
     }
     main {
       padding: 2.75em;
@@ -95,7 +103,7 @@
 
   @media (max-width: 341px) {
     :root {
-        font-size: 12.5px;
+      font-size: 12.5px;
     }
   }
   

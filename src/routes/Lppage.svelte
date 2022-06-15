@@ -15,7 +15,8 @@ getPairsData(data => {
 var filterToken = (tokenData, tokenName) => {
     if (
         tokenData.tok1.symbol.toLowerCase().startsWith(tokenName.toLowerCase()) ||
-        tokenData.tok2.symbol.toLowerCase().startsWith(tokenName.toLowerCase()))
+        tokenData.tok2.symbol.toLowerCase().startsWith(tokenName.toLowerCase())
+      )
         return true;
     return false;
 }
