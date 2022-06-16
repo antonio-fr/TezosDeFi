@@ -183,7 +183,7 @@ onMount(e=>document.getElementsByTagName("main")[0].style["max-width"] = "650px"
           columns="{columns}"
           rows="{rows}"
           classNameRow="tableRow"
-          sortBy= "rate",
+          sortBy= "rate"
           sortOrder= -1
         />
       </div>
